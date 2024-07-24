@@ -1,0 +1,101 @@
+@model MyWebApp.ViewModels.IndexPhoneViewModel
+
+@{
+    ViewBag.Title = "Phones";
+    Layout = "_Layout";
+}
+
+<h2>Мобильные телефоны</h2>
+
+<a asp-action="Create" asp-controller="Phone">Добавить смартфон</a>
+
+<form asp-action="Index" method="get">
+    <select name="brandId">
+        <option value=""></option>
+        @foreach (var b in Model.Brands)
+        {
+            <option value="@b.Id">@b.Name</option>
+        }
+    </select>
+    <button type="submit">Фильтровать</button>
+</form>
+
+<div class="table_section">
+
+    @if (@Model.Phones.Count == 0)
+
+    {
+
+        <p>Смартфоны еще не добавлены</p>
+
+    }
+
+    else
+
+    {
+
+        <table style="width: 100%;">
+
+            <tr>
+
+                <th>Id</th>
+
+                <th>Наименование</th>
+
+                <th>Компания</th>
+
+                <th>Стоимость</th>
+
+                <th>Бренд</th>
+                
+                <th></th>
+
+            </tr>
+
+            @foreach (var phone in @Model.Phones)
+
+            {
+
+                <tr>
+
+                    <td>@phone.Id</td>
+
+                    <td>@phone.Name</td>
+
+                    <td>@phone.Company</td>
+
+                    <td>@phone.Price</td>
+
+                    <td>
+                        @if (phone.Brand != null)
+                        {
+                            <span>@phone.Brand.Name</span>
+                        }
+                    </td>
+                    
+                    <td>
+                        <a asp-action="Create" asp-controller="Order" asp-route-phoneId="@phone.Id">Заказать</a> |
+                        <a asp-action="Edit" asp-route-phoneId="@phone.Id">Изменить</a>
+                        <a asp-action="Delete" asp-route-phoneId="@phone.Id">Удалить</a>
+                    </td>
+
+                </tr>
+
+            }
+
+            
+
+        </table>
+
+    }
+
+</div>
+
+@functions{
+
+    public string GetMessage()
+    {
+        return "Hello World";
+    }
+
+}

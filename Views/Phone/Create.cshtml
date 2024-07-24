@@ -1,0 +1,61 @@
+@model Phone
+
+@{
+    ViewBag.Title = "Create Phone";
+    Layout = "_Layout";
+}
+
+<h2>Заполните форму для добавления устройства</h2>
+
+<div class="row">
+
+    <div class="phone_add_form col-md-6">
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            <div class="form_row">
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Name)
+                    <span asp-validation-for="Name"></span>
+                </div>
+            </div>
+
+            <div class="form_row">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Company)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Company)
+                    @Html.ValidationMessageFor(model => model.Company)
+                </div>
+            </div>
+
+            <div class="form_row">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Price)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Price)
+                    @Html.ValidationMessageFor(model => model.Price)
+                </div>
+            </div>
+            <div class="form-row">
+                <select asp-for="BrandId">
+                    @foreach (var b in (List<Brand>)ViewBag.Brands)
+                    {
+                        <option value="@b.Id">@b.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit">Создать</button>
+
+        </form>
+
+    </div>
+
+</div>
